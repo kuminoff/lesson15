@@ -10,6 +10,16 @@ const DomElement = function (select, hei, wid, back, font) {
   this.fontSize = font;
   this.left = 50;
   this.top = 50;
+  const windowOuterWidth = window.innerWidth;
+  const windowOuterHeight = window.innerHeight;
+  this.heightMeaning = this.height.replace(/[^0-9]/g, "");
+  this.widthMeaning = this.width.replace(/[^0-9]/g, "");
+
+  console.log(windowOuterWidth);
+  console.log(windowOuterHeight);
+
+  console.log(this.heightMeaning);
+  console.log(this.widthMeaning);
 
   (this.createElem = () => {
     const elem =
@@ -30,46 +40,52 @@ const DomElement = function (select, hei, wid, back, font) {
   }),
     (this.changePosition = (e) => {
       console.log(e.code);
+      let step = 10;
       switch (true) {
         case e.code === "ArrowDown":
-          this.top += 10;
+          this.top += step;
           console.log(this.top);
           body.innerHTML = "";
           this.createElem();
           break;
         case e.code === "ArrowUp":
-          this.top -= 10;
+          this.top -= step;
           console.log(this.top);
           body.innerHTML = "";
           this.createElem();
           break;
         case e.code === "ArrowLeft":
-          this.left -= 10;
+          this.left -= step;
           body.innerHTML = "";
           this.createElem();
           console.log(this.left);
           break;
         case e.code === "ArrowRight":
-          this.left += 10;
+          this.left += step;
           body.innerHTML = "";
           this.createElem();
           console.log(this.left);
           break;
       }
-      if (this.top == -100) {
-        this.top = 1080;
-      }
 
-      if (this.left == -100) {
-        this.left = 2150;
-      }
+      switch (true) {
+        case this.left <= -this.heightMeaning && e.code !== "ArrowRight":
+          this.left = windowOuterWidth;
+          break;
 
-      if (this.top == 1090) {
-        this.top = -109;
-      }
+        case this.left >= windowOuterWidth - this.heightMeaning &&
+          e.code !== "ArrowLeft":
+          this.left = -this.heightMeaning;
+          break;
 
-      if (this.left == 2160) {
-        this.left = -109;
+        case this.top <= -this.widthMeaning && e.code !== "ArrowDown":
+          this.top = windowOuterHeight;
+          break;
+
+        case this.top >= windowOuterHeight - this.widthMeaning &&
+          e.code !== "ArrowUp":
+          this.top = -this.widthMeaning;
+          break;
       }
     });
   document.addEventListener("DOMContentLoaded", this.createElem());
