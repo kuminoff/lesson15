@@ -1,6 +1,6 @@
 "use strict";
 
-const body = document.querySelector("body");
+const body = document.body;
 
 const DomElement = function (select, hei, wid, back, font) {
   this.selector = select;
@@ -56,9 +56,24 @@ const DomElement = function (select, hei, wid, back, font) {
           console.log(this.left);
           break;
       }
+      if (this.top == -100) {
+        this.top = 1080;
+      }
+
+      if (this.left == -100) {
+        this.left = 2150;
+      }
+
+      if (this.top == 1090) {
+        this.top = -109;
+      }
+
+      if (this.left == 2160) {
+        this.left = -109;
+      }
     });
+  document.addEventListener("DOMContentLoaded", this.createElem());
+  document.addEventListener("keydown", this.changePosition);
 };
 
 const newElem = new DomElement(".que", "100px", "100px", "blue", "14px");
-document.addEventListener("DOMContentLoaded", newElem.createElem());
-document.addEventListener("keydown", newElem.changePosition);
